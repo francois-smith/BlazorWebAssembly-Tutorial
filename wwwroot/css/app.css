@@ -80,6 +80,13 @@ body {
     overflow-y: auto;
 }
 
+.no-items{
+    text-align: center;
+    color: #bdc3c7;
+    font-size: 1.2rem;
+    margin-top: 1rem;
+}
+
 .todo-item{
     background-color: #ffffff;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
