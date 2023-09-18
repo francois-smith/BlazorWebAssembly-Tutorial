@@ -2,6 +2,65 @@
 
 <PageTitle>WebAssembly Tutorial</PageTitle>
 
-@code {
+<h1 class="main-title">To-Do List</h1>
+<div class="todo-list">
+    <div class="add-item">
+        <input type="text" @bind="newItem" placeholder="New Item">
+        <button @onclick="AddNewItem">Add Item</button>
+    </div>
+    <div class="item-list">
+        @if(todos == null || todos.Count == 0)
+        {
+            <div class="no-items">No Items</div>
+        }
+        else
+        {
+            @for(var i = 0; i < todos.Count(); i++)
+            {
+                var todo = todos[i];
+                var currentIndex = i;
 
+                <div class="todo-item @(todo.CompletionState ? "complete" : "incomplete")" @onclick="() => ToggleCompletionState(currentIndex)">
+                    @todo.Title
+                    <i class="fa-solid fa-trash" @onclick="() => RemoveItem(currentIndex)" @onclick:stopPropagation="true"></i>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+@code {
+    private List<TodoItem> todos = new()
+    {
+        new TodoItem("Learn Blazor"),
+        new TodoItem("Build awesome apps"),
+        new TodoItem("Profit")
+    };
+
+    private string? newItem;
+
+    private void AddNewItem(){
+        if(!string.IsNullOrWhiteSpace(newItem)){
+            todos.Add(new TodoItem(newItem));
+            newItem = null;
+        };
+    }
+
+    private void RemoveItem(int currentIndex){
+        todos.RemoveAt(currentIndex);
+    }
+
+    private void ToggleCompletionState(int index){
+        todos[index].CompletionState = !todos[index].CompletionState;
+    }
+
+    private class TodoItem{
+        public string Title {get; set;}
+        public bool CompletionState {get; set;}
+
+        public TodoItem(string title){
+            Title = title;
+            CompletionState = false;
+        }
+    }
 }
